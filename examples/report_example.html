@@ -1,0 +1,1024 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docker Security Report</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+         background: #0f172a; color: #e2e8f0; padding: 32px; }
+  .header { text-align: center; margin-bottom: 40px; }
+  .header h1 { font-size: 28px; font-weight: 700; color: #f8fafc; margin-bottom: 8px; }
+  .header p { color: #94a3b8; font-size: 14px; }
+  .summary { display: flex; gap: 16px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+  .summary-card { background: #1e293b; border-radius: 12px; padding: 20px 32px;
+                  text-align: center; border: 1px solid #334155; min-width: 140px; }
+  .summary-card .number { font-size: 36px; font-weight: 700; }
+  .summary-card .label { font-size: 12px; color: #94a3b8; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .critical .number { color: #dc2626; }
+  .high .number { color: #ea580c; }
+  .medium .number { color: #d97706; }
+  .pass .number { color: #16a34a; }
+  .container-card { background: #1e293b; border-radius: 12px; margin-bottom: 24px;
+                    border: 1px solid #334155; overflow: hidden; }
+  .container-header { padding: 20px 24px; background: #263148; border-bottom: 1px solid #334155;
+                       display: flex; align-items: center; gap: 12px; }
+  .container-name { font-size: 18px; font-weight: 600; color: #f8fafc; }
+  .container-image { font-size: 12px; color: #64748b; margin-top: 2px; }
+  .badge { padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600;
+           text-transform: uppercase; letter-spacing: 0.05em; }
+  .badge-running { background: #14532d; color: #86efac; }
+  table { width: 100%; border-collapse: collapse; }
+  th { padding: 12px 24px; text-align: left; font-size: 11px; text-transform: uppercase;
+       letter-spacing: 0.08em; color: #64748b; border-bottom: 1px solid #334155; }
+  td { padding: 14px 24px; border-bottom: 1px solid #1e293b; font-size: 14px; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover { background: #263148; }
+  .severity { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;
+              letter-spacing: 0.05em; }
+  .sev-CRITICAL { background: #450a0a; color: #fca5a5; }
+  .sev-HIGH     { background: #431407; color: #fdba74; }
+  .sev-MEDIUM   { background: #451a03; color: #fcd34d; }
+  .sev-LOW      { background: #1a2e05; color: #86efac; }
+  .sev-PASS     { background: #052e16; color: #86efac; }
+  .status-FAIL { color: #f87171; font-weight: 600; }
+  .status-PASS { color: #4ade80; font-weight: 600; }
+  .detail { color: #94a3b8; font-size: 13px; }
+  .remediation { color: #60a5fa; font-size: 12px; margin-top: 4px; }
+  .footer { text-align: center; margin-top: 40px; color: #475569; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🔐 Docker Security Report</h1>
+  <p>CIS Docker Benchmark · Generiert am 16.06.2026 14:05:51 · Host: freeza</p>
+</div>
+
+<div class="summary">
+  <div class="summary-card critical">
+    <div class="number">3</div>
+    <div class="label">Critical</div>
+  </div>
+  <div class="summary-card high">
+    <div class="number">7</div>
+    <div class="label">High</div>
+  </div>
+  <div class="summary-card medium">
+    <div class="number">10</div>
+    <div class="label">Medium</div>
+  </div>
+  <div class="summary-card pass">
+    <div class="number">40</div>
+    <div class="label">Passed</div>
+  </div>
+</div>
+
+
+<div class="container-card">
+  <div class="container-header">
+    <div>
+      <div class="container-name">logstash</div>
+      <div class="container-image">docker.elastic.co/logstash/logstash:9.4.2</div>
+    </div>
+    <span class="badge badge-running">running</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Check ID</th>
+        <th>Beschreibung</th>
+        <th>Severity</th>
+        <th>Status</th>
+        <th>Detail & Remediation</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td><code>CIS-4.1</code></td>
+        <td>Container läuft als root (UID 0)</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Container läuft nicht als root.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.4</code></td>
+        <td>Container läuft im Privileged Mode</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Privileged Mode ist deaktiviert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.9</code></td>
+        <td>Container teilt Host-Netzwerk</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Container verwendet kein Host-Netzwerk.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.10</code></td>
+        <td>Kein Memory-Limit gesetzt</td>
+        <td><span class="severity sev-MEDIUM">MEDIUM</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Kein Speicherlimit definiert. Container kann den Host zum Absturz bringen.</div>
+          
+          <div class="remediation">💡 Füge 'mem_limit: 512m' in docker-compose.yml hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.15</code></td>
+        <td>Gefährliche Ports nach 0.0.0.0 exponiert</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine gefährlichen Ports nach aussen exponiert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.25</code></td>
+        <td>Secrets in Umgebungsvariablen gefunden</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine Secrets in Umgebungsvariablen gefunden.</div>
+          
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+<div class="container-card">
+  <div class="container-header">
+    <div>
+      <div class="container-name">kibana</div>
+      <div class="container-image">docker.elastic.co/kibana/kibana:9.4.2</div>
+    </div>
+    <span class="badge badge-running">running</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Check ID</th>
+        <th>Beschreibung</th>
+        <th>Severity</th>
+        <th>Status</th>
+        <th>Detail & Remediation</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td><code>CIS-4.1</code></td>
+        <td>Container läuft als root (UID 0)</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Container läuft nicht als root.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.4</code></td>
+        <td>Container läuft im Privileged Mode</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Privileged Mode ist deaktiviert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.9</code></td>
+        <td>Container teilt Host-Netzwerk</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Container verwendet kein Host-Netzwerk.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.10</code></td>
+        <td>Kein Memory-Limit gesetzt</td>
+        <td><span class="severity sev-MEDIUM">MEDIUM</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Kein Speicherlimit definiert. Container kann den Host zum Absturz bringen.</div>
+          
+          <div class="remediation">💡 Füge 'mem_limit: 512m' in docker-compose.yml hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.15</code></td>
+        <td>Gefährliche Ports nach 0.0.0.0 exponiert</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine gefährlichen Ports nach aussen exponiert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.25</code></td>
+        <td>Secrets in Umgebungsvariablen gefunden</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Verdächtige Variablen: ELASTICSEARCH_PASSWORD</div>
+          
+          <div class="remediation">💡 Nutze Docker Secrets oder eine .env Datei die nicht in Git eingecheckt wird.</div>
+          
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+<div class="container-card">
+  <div class="container-header">
+    <div>
+      <div class="container-name">filebeat</div>
+      <div class="container-image">docker.elastic.co/beats/filebeat:9.4.2</div>
+    </div>
+    <span class="badge badge-running">running</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Check ID</th>
+        <th>Beschreibung</th>
+        <th>Severity</th>
+        <th>Status</th>
+        <th>Detail & Remediation</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td><code>CIS-4.1</code></td>
+        <td>Container läuft als root (UID 0)</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Prozess läuft als root. Erstelle einen dedizierten User im Dockerfile.</div>
+          
+          <div class="remediation">💡 Füge 'USER nonroot' im Dockerfile hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.4</code></td>
+        <td>Container läuft im Privileged Mode</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Privileged Mode ist deaktiviert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.9</code></td>
+        <td>Container teilt Host-Netzwerk</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Container verwendet kein Host-Netzwerk.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.10</code></td>
+        <td>Kein Memory-Limit gesetzt</td>
+        <td><span class="severity sev-MEDIUM">MEDIUM</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Kein Speicherlimit definiert. Container kann den Host zum Absturz bringen.</div>
+          
+          <div class="remediation">💡 Füge 'mem_limit: 512m' in docker-compose.yml hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.15</code></td>
+        <td>Gefährliche Ports nach 0.0.0.0 exponiert</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine gefährlichen Ports nach aussen exponiert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.25</code></td>
+        <td>Secrets in Umgebungsvariablen gefunden</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine Secrets in Umgebungsvariablen gefunden.</div>
+          
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+<div class="container-card">
+  <div class="container-header">
+    <div>
+      <div class="container-name">elasticsearch</div>
+      <div class="container-image">docker.elastic.co/elasticsearch/elasticsearch:9.4.2</div>
+    </div>
+    <span class="badge badge-running">running</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Check ID</th>
+        <th>Beschreibung</th>
+        <th>Severity</th>
+        <th>Status</th>
+        <th>Detail & Remediation</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td><code>CIS-4.1</code></td>
+        <td>Container läuft als root (UID 0)</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Container läuft nicht als root.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.4</code></td>
+        <td>Container läuft im Privileged Mode</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Privileged Mode ist deaktiviert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.9</code></td>
+        <td>Container teilt Host-Netzwerk</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Container verwendet kein Host-Netzwerk.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.10</code></td>
+        <td>Kein Memory-Limit gesetzt</td>
+        <td><span class="severity sev-MEDIUM">MEDIUM</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Kein Speicherlimit definiert. Container kann den Host zum Absturz bringen.</div>
+          
+          <div class="remediation">💡 Füge 'mem_limit: 512m' in docker-compose.yml hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.15</code></td>
+        <td>Gefährliche Ports nach 0.0.0.0 exponiert</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine gefährlichen Ports nach aussen exponiert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.25</code></td>
+        <td>Secrets in Umgebungsvariablen gefunden</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Verdächtige Variablen: ELASTIC_PASSWORD</div>
+          
+          <div class="remediation">💡 Nutze Docker Secrets oder eine .env Datei die nicht in Git eingecheckt wird.</div>
+          
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+<div class="container-card">
+  <div class="container-header">
+    <div>
+      <div class="container-name">wedding-platform-backend</div>
+      <div class="container-image">wedding-photo-platform-wedding-backend:latest</div>
+    </div>
+    <span class="badge badge-running">running</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Check ID</th>
+        <th>Beschreibung</th>
+        <th>Severity</th>
+        <th>Status</th>
+        <th>Detail & Remediation</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td><code>CIS-4.1</code></td>
+        <td>Container läuft als root (UID 0)</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Prozess läuft als root. Erstelle einen dedizierten User im Dockerfile.</div>
+          
+          <div class="remediation">💡 Füge 'USER nonroot' im Dockerfile hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.4</code></td>
+        <td>Container läuft im Privileged Mode</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Privileged Mode ist deaktiviert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.9</code></td>
+        <td>Container teilt Host-Netzwerk</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Container verwendet kein Host-Netzwerk.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.10</code></td>
+        <td>Kein Memory-Limit gesetzt</td>
+        <td><span class="severity sev-MEDIUM">MEDIUM</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Kein Speicherlimit definiert. Container kann den Host zum Absturz bringen.</div>
+          
+          <div class="remediation">💡 Füge 'mem_limit: 512m' in docker-compose.yml hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.15</code></td>
+        <td>Gefährliche Ports nach 0.0.0.0 exponiert</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine gefährlichen Ports nach aussen exponiert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.25</code></td>
+        <td>Secrets in Umgebungsvariablen gefunden</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Verdächtige Variablen: CLOUDFLARE_API_TOKEN, R2_SECRET_ACCESS_KEY, JWT_SECRET, CLOUDFLARE_TUNNEL_TOKEN</div>
+          
+          <div class="remediation">💡 Nutze Docker Secrets oder eine .env Datei die nicht in Git eingecheckt wird.</div>
+          
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+<div class="container-card">
+  <div class="container-header">
+    <div>
+      <div class="container-name">actualbudget-fab</div>
+      <div class="container-image">unknown</div>
+    </div>
+    <span class="badge badge-running">running</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Check ID</th>
+        <th>Beschreibung</th>
+        <th>Severity</th>
+        <th>Status</th>
+        <th>Detail & Remediation</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td><code>CIS-4.1</code></td>
+        <td>Container läuft als root (UID 0)</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Prozess läuft als root. Erstelle einen dedizierten User im Dockerfile.</div>
+          
+          <div class="remediation">💡 Füge 'USER nonroot' im Dockerfile hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.4</code></td>
+        <td>Container läuft im Privileged Mode</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Privileged Mode ist deaktiviert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.9</code></td>
+        <td>Container teilt Host-Netzwerk</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Container verwendet kein Host-Netzwerk.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.10</code></td>
+        <td>Kein Memory-Limit gesetzt</td>
+        <td><span class="severity sev-MEDIUM">MEDIUM</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Kein Speicherlimit definiert. Container kann den Host zum Absturz bringen.</div>
+          
+          <div class="remediation">💡 Füge 'mem_limit: 512m' in docker-compose.yml hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.15</code></td>
+        <td>Gefährliche Ports nach 0.0.0.0 exponiert</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine gefährlichen Ports nach aussen exponiert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.25</code></td>
+        <td>Secrets in Umgebungsvariablen gefunden</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine Secrets in Umgebungsvariablen gefunden.</div>
+          
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+<div class="container-card">
+  <div class="container-header">
+    <div>
+      <div class="container-name">actualbudget-actual_server-1</div>
+      <div class="container-image">unknown</div>
+    </div>
+    <span class="badge badge-running">running</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Check ID</th>
+        <th>Beschreibung</th>
+        <th>Severity</th>
+        <th>Status</th>
+        <th>Detail & Remediation</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td><code>CIS-4.1</code></td>
+        <td>Container läuft als root (UID 0)</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Prozess läuft als root. Erstelle einen dedizierten User im Dockerfile.</div>
+          
+          <div class="remediation">💡 Füge 'USER nonroot' im Dockerfile hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.4</code></td>
+        <td>Container läuft im Privileged Mode</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Privileged Mode ist deaktiviert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.9</code></td>
+        <td>Container teilt Host-Netzwerk</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Container verwendet kein Host-Netzwerk.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.10</code></td>
+        <td>Kein Memory-Limit gesetzt</td>
+        <td><span class="severity sev-MEDIUM">MEDIUM</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Kein Speicherlimit definiert. Container kann den Host zum Absturz bringen.</div>
+          
+          <div class="remediation">💡 Füge 'mem_limit: 512m' in docker-compose.yml hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.15</code></td>
+        <td>Gefährliche Ports nach 0.0.0.0 exponiert</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine gefährlichen Ports nach aussen exponiert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.25</code></td>
+        <td>Secrets in Umgebungsvariablen gefunden</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine Secrets in Umgebungsvariablen gefunden.</div>
+          
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+<div class="container-card">
+  <div class="container-header">
+    <div>
+      <div class="container-name">wedding-cloudflared</div>
+      <div class="container-image">unknown</div>
+    </div>
+    <span class="badge badge-running">running</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Check ID</th>
+        <th>Beschreibung</th>
+        <th>Severity</th>
+        <th>Status</th>
+        <th>Detail & Remediation</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td><code>CIS-4.1</code></td>
+        <td>Container läuft als root (UID 0)</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Container läuft nicht als root.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.4</code></td>
+        <td>Container läuft im Privileged Mode</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Privileged Mode ist deaktiviert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.9</code></td>
+        <td>Container teilt Host-Netzwerk</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Container verwendet kein Host-Netzwerk.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.10</code></td>
+        <td>Kein Memory-Limit gesetzt</td>
+        <td><span class="severity sev-MEDIUM">MEDIUM</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Kein Speicherlimit definiert. Container kann den Host zum Absturz bringen.</div>
+          
+          <div class="remediation">💡 Füge 'mem_limit: 512m' in docker-compose.yml hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.15</code></td>
+        <td>Gefährliche Ports nach 0.0.0.0 exponiert</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine gefährlichen Ports nach aussen exponiert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.25</code></td>
+        <td>Secrets in Umgebungsvariablen gefunden</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine Secrets in Umgebungsvariablen gefunden.</div>
+          
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+<div class="container-card">
+  <div class="container-header">
+    <div>
+      <div class="container-name">pihole</div>
+      <div class="container-image">unknown</div>
+    </div>
+    <span class="badge badge-running">running</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Check ID</th>
+        <th>Beschreibung</th>
+        <th>Severity</th>
+        <th>Status</th>
+        <th>Detail & Remediation</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td><code>CIS-4.1</code></td>
+        <td>Container läuft als root (UID 0)</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Prozess läuft als root. Erstelle einen dedizierten User im Dockerfile.</div>
+          
+          <div class="remediation">💡 Füge 'USER nonroot' im Dockerfile hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.4</code></td>
+        <td>Container läuft im Privileged Mode</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Privileged Mode ist deaktiviert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.9</code></td>
+        <td>Container teilt Host-Netzwerk</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">NetworkMode=host umgeht die Docker Netzwerk-Isolation.</div>
+          
+          <div class="remediation">💡 Verwende ein dediziertes Docker-Netzwerk statt --network=host.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.10</code></td>
+        <td>Kein Memory-Limit gesetzt</td>
+        <td><span class="severity sev-MEDIUM">MEDIUM</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Kein Speicherlimit definiert. Container kann den Host zum Absturz bringen.</div>
+          
+          <div class="remediation">💡 Füge 'mem_limit: 512m' in docker-compose.yml hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.15</code></td>
+        <td>Gefährliche Ports nach 0.0.0.0 exponiert</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine gefährlichen Ports nach aussen exponiert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.25</code></td>
+        <td>Secrets in Umgebungsvariablen gefunden</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine Secrets in Umgebungsvariablen gefunden.</div>
+          
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+<div class="container-card">
+  <div class="container-header">
+    <div>
+      <div class="container-name">npm-app-1</div>
+      <div class="container-image">unknown</div>
+    </div>
+    <span class="badge badge-running">running</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Check ID</th>
+        <th>Beschreibung</th>
+        <th>Severity</th>
+        <th>Status</th>
+        <th>Detail & Remediation</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td><code>CIS-4.1</code></td>
+        <td>Container läuft als root (UID 0)</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Prozess läuft als root. Erstelle einen dedizierten User im Dockerfile.</div>
+          
+          <div class="remediation">💡 Füge 'USER nonroot' im Dockerfile hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.4</code></td>
+        <td>Container läuft im Privileged Mode</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Privileged Mode ist deaktiviert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.9</code></td>
+        <td>Container teilt Host-Netzwerk</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Container verwendet kein Host-Netzwerk.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.10</code></td>
+        <td>Kein Memory-Limit gesetzt</td>
+        <td><span class="severity sev-MEDIUM">MEDIUM</span></td>
+        <td><span class="status-FAIL">FAIL</span></td>
+        <td>
+          <div class="detail">Kein Speicherlimit definiert. Container kann den Host zum Absturz bringen.</div>
+          
+          <div class="remediation">💡 Füge 'mem_limit: 512m' in docker-compose.yml hinzu.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.15</code></td>
+        <td>Gefährliche Ports nach 0.0.0.0 exponiert</td>
+        <td><span class="severity sev-HIGH">HIGH</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine gefährlichen Ports nach aussen exponiert.</div>
+          
+        </td>
+      </tr>
+      
+      <tr>
+        <td><code>CIS-5.25</code></td>
+        <td>Secrets in Umgebungsvariablen gefunden</td>
+        <td><span class="severity sev-CRITICAL">CRITICAL</span></td>
+        <td><span class="status-PASS">PASS</span></td>
+        <td>
+          <div class="detail">Keine Secrets in Umgebungsvariablen gefunden.</div>
+          
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+
+
+<div class="footer">
+  Docker Security Scanner · CIS Docker Benchmark · github.com/KarmaKami994/docker-security-scanner
+</div>
+</body>
+</html>

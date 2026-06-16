@@ -1,0 +1,8 @@
+# Generated reports (may contain sensitive data)
+reports/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.env
