@@ -6,3 +6,6 @@ reports/
 __pycache__/
 *.pyc
 .env
+
+# Aber Example Report erlauben
+!examples/report_example.html
