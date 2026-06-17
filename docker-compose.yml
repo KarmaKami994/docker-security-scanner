@@ -1,0 +1,11 @@
+services:
+  docker-security-scanner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: docker-security-scanner:latest
+    container_name: docker-security-scanner
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./reports:/app/reports
+    restart: "no"
